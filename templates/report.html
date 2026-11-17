@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JobShield - Verification Reports</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #0001;
+        }
+
+        h1 {
+            color: #173b70;
+            text-align: center;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 13px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #173b70;
+            color: white;
+        }
+
+        .high {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .medium {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .low {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        a, button {
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .view {
+            background: #1769aa;
+            color: white;
+        }
+
+        .delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .navigation {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .navigation a {
+            background: #173b70;
+            color: white;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Job Verification Reports</h1>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Company</th>
+                    <th>Job</th>
+                    <th>Prediction</th>
+                    <th>Risk</th>
+                    <th>Classification</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for report in reports %}
+
+                <tr>
+
+                    <td>{{ report.id }}</td>
+
+                    <td>{{ report.company_name }}</td>
+
+                    <td>{{ report.job_title }}</td>
+
+                    <td>{{ report.prediction }}</td>
+
+                    <td>
+                        {% if report.risk_score is not none %}
+                            {{ report.risk_score }}/100
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if report.classification %}
+
+                            {% if report.classification == "High Risk" %}
+                                <span class="high">
+                                    High Risk
+                                </span>
+
+                            {% elif report.classification == "Medium Risk" %}
+                                <span class="medium">
+                                    Medium Risk
+                                </span>
+
+                            {% else %}
+                                <span class="low">
+                                    Low Risk
+                                </span>
+                            {% endif %}
+
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+
+                    <td>{{ report.created_at }}</td>
+
+                    <td>
+                        <a class="view"
+                           href="{{ url_for('view_report', report_id=report.id) }}">
+                            View
+                        </a>
+
+                        <form action="{{ url_for('delete_report', report_id=report.id) }}"
+                              method="POST"
+                              style="display:inline;"
+                              onsubmit="return confirm('Delete this report?');">
+
+                            <button class="delete" type="submit">
+                                Delete
+                            </button>
+
+                        </form>
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="8">No reports available.</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="navigation">
+
+        <a href="{{ url_for('index') }}">Home</a>
+
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

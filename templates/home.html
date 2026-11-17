@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JobShield - Fake Job Detection</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #0001;
+        }
+
+        h1 {
+            text-align: center;
+            color: #173b70;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            background: #1769aa;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #104d80;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .message {
+            padding: 10px;
+            background: #fff3cd;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>JobShield</h1>
+
+    <p style="text-align:center">
+        AI-Based Fake Job Detection System
+    </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <form action="{{ url_for('analyze') }}" method="POST">
+
+        <label>Company Name</label>
+        <input
+            type="text"
+            name="company_name"
+            placeholder="Enter company name"
+            required
+        >
+
+        <label>Job Title</label>
+        <input
+            type="text"
+            name="job_title"
+            placeholder="Enter job title"
+            required
+        >
+
+        <label>Recruiter Email</label>
+        <input
+            type="email"
+            name="recruiter_email"
+            placeholder="recruiter@company.com"
+        >
+
+        <label>Company Website</label>
+        <input
+            type="url"
+            name="website"
+            placeholder="https://www.company.com"
+        >
+
+        <label>Job Advertisement URL</label>
+        <input
+            type="url"
+            name="job_url"
+            placeholder="Paste job advertisement URL"
+        >
+
+        <label>Job Description</label>
+        <textarea
+            name="description"
+            placeholder="Paste complete job description here"
+            required
+        ></textarea>
+
+        <button type="submit">
+            Analyze Job Advertisement
+        </button>
+
+    </form>
+
+    <div class="links">
+        <a href="{{ url_for('reports') }}">
+            View Previous Reports
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

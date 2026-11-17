@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JobShield - Report Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #0001;
+        }
+
+        h1 { color: #173b70; }
+
+        .detail {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #334155;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            margin-right: 12px;
+            color: #1769aa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>JobShield Report Details</h1>
+
+    <div class="detail">
+        <span class="label">Report ID:</span>
+        {{ report.id }}
+    </div>
+
+    <div class="detail">
+        <span class="label">Company:</span>
+        {{ report.company_name }}
+    </div>
+
+    <div class="detail">
+        <span class="label">Job Title:</span>
+        {{ report.job_title }}
+    </div>
+
+    <div class="detail">
+        <span class="label">Recruiter Email:</span>
+        {{ report.recruiter_email }}
+    </div>
+
+    <div class="detail">
+        <span class="label">Company Website:</span>
+        {{ report.website }}
+    </div>
+
+    <div class="detail">
+        <span class="label">Job URL:</span>
+        {{ report.job_url }}
+    </div>
+
+    <div class="detail">
+        <span class="label">Prediction:</span>
+        {{ report.prediction }}
+    </div>
+
+    <div class="detail">
+        <span class="label">Confidence:</span>
+        {{ report.confidence if report.confidence is not none else 'N/A' }}%
+    </div>
+
+    <div class="detail">
+        <span class="label">Job Description:</span>
+        <p>{{ report.description }}</p>
+    </div>
+
+    <div class="detail">
+        <span class="label">Date:</span>
+        {{ report.created_at }}
+    </div>
+
+    <a href="{{ url_for('reports') }}">Previous Reports</a>
+
+    <a href="{{ url_for('index') }}">Home</a>
+
+    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+</div>
+
+</body>
+</html>

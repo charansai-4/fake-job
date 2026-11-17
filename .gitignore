@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+*.db
+email_history.csv
+job_history.csv

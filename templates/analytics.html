@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>JobShield Analysis Results</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #0001;
+        }
+
+        h1 {
+            text-align: center;
+            color: #173b70;
+        }
+
+        .result {
+            text-align: center;
+            padding: 20px;
+            background: #dcfce7;
+            color: #15803d;
+            border-radius: 10px;
+        }
+
+        .card {
+            padding: 18px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .progress {
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .bar {
+            height: 100%;
+            background: #1769aa;
+        }
+
+        .risk {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            display: inline-block;
+            padding: 12px 18px;
+            margin: 10px 5px;
+            background: #1769aa;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>JobShield Analysis Results</h1>
+
+    {% if ml_result %}
+
+    <div class="result">
+        <h2>{{ ml_result.prediction }}</h2>
+        <p>AI-based job advertisement prediction</p>
+    </div>
+
+    <div class="card">
+
+        <h3>Fake Probability:
+            {{ ml_result.fake_probability }}%
+        </h3>
+
+        <div class="progress">
+            <div class="bar"
+                 style="width: {{ ml_result.fake_probability }}%;
+                        background:#dc2626;">
+            </div>
+        </div>
+
+        <h3>Genuine Probability:
+            {{ ml_result.genuine_probability }}%
+        </h3>
+
+        <div class="progress">
+            <div class="bar"
+                 style="width: {{ ml_result.genuine_probability }}%;
+                        background:#16a34a;">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h3>Why was this job flagged?</h3>
+
+        {% if ml_result.influential_words %}
+            <ul>
+                {% for item in ml_result.influential_words %}
+                    <li>
+                        {{ item.word }}
+                        (Contribution: {{ item.weight }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No influential words were identified.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+
+        <h3>Overall Risk</h3>
+
+        <div class="risk">
+            {{ ml_result.risk_score }}/100
+        </div>
+
+        <h3>Classification:</h3>
+        <p>{{ ml_result.classification }}</p>
+
+    </div>
+
+    <div class="card">
+        <h3>Recommendation</h3>
+        <p>{{ ml_result.recommendation }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Job Details</h3>
+
+        <p><b>Company:</b> {{ ml_result.company_name }}</p>
+        <p><b>Job Title:</b> {{ ml_result.job_title }}</p>
+        <p><b>Email:</b> {{ ml_result.recruiter_email }}</p>
+        <p><b>Website:</b> {{ ml_result.website }}</p>
+        <p><b>Job URL:</b> {{ ml_result.job_url }}</p>
+    </div>
+
+    {% else %}
+
+        <h2>No analysis results available.</h2>
+
+    {% endif %}
+
+    <center>
+        <a href="{{ url_for('index') }}">Analyze Another Job</a>
+        <a href="{{ url_for('reports') }}">Previous Reports</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    </center>
+
+    <p style="color:#64748b;font-size:12px;">
+        AI predictions are estimates, not proof of fraud.
+        Verify job offers independently.
+    </p>
+
+</div>
+
+</body>
+</html>

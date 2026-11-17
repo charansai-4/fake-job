@@ -1,0 +1,51 @@
+
+{% extends "base.html" %}
+
+{% block title %}Search Items{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Search Lost and Found Items</h1>
+
+    <form method="GET" action="/search" class="search-form">
+
+        <input type="text"
+               name="keyword"
+               placeholder="Search item or location..."
+               value="{{ keyword }}">
+
+        <button type="submit">Search</button>
+
+    </form>
+
+    <div class="cards">
+
+        {% for item in items %}
+
+        <div class="card">
+
+            <span class="{{ item['status']|lower }}">
+                {{ item['status'] }}
+            </span>
+
+            <h3>{{ item['name'] }}</h3>
+            <p>Category: {{ item['category'] }}</p>
+            <p>Location: {{ item['location'] }}</p>
+            <p>Date: {{ item['item_date'] }}</p>
+            <p>Contact: {{ item['contact'] }}</p>
+
+        </div>
+
+        {% else %}
+
+        <p>No matching items found.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

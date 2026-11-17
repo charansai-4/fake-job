@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Lost & Found{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a class="logo" href="/">🔎 Lost & Found</a>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/report/Lost">Report Lost</a>
+        <a href="/report/Found">Report Found</a>
+        <a href="/search">Search</a>
+        <a href="/items">All Items</a>
+        <a href="/matches">Matches</a>
+        <a href="/analytics">Analytics</a>
+    </div>
+</nav>
+
+<div class="messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p class="{{ category }}">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>Smart Lost and Found Management System</p>
+    <p>Python Flask | SQLite | Pandas</p>
+</footer>
+
+</body>
+</html>

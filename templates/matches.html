@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+{% block title %}Possible Matches{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>Possible Lost and Found Matches</h1>
+
+    <p>Items with matching names and locations are shown below.</p>
+
+    {% for match in matches %}
+
+    <div class="card match-card">
+
+        <h3>Possible Match Found!</h3>
+
+        <div class="cards">
+
+            <div>
+                <h3>Lost Report</h3>
+                <p>Item: {{ match.lost['name'] }}</p>
+                <p>Location: {{ match.lost['location'] }}</p>
+                <p>Contact: {{ match.lost['contact'] }}</p>
+            </div>
+
+            <div>
+                <h3>Found Report</h3>
+                <p>Item: {{ match.found['name'] }}</p>
+                <p>Location: {{ match.found['location'] }}</p>
+                <p>Contact: {{ match.found['contact'] }}</p>
+            </div>
+
+        </div>
+
+        <p>Verify ownership before arranging a return.</p>
+
+    </div>
+
+    {% else %}
+
+    <p>No possible matches found yet.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

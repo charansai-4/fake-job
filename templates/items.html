@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block title %}All Items{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>All Reported Items</h1>
+
+    <a class="btn" href="/export">Download CSV Report</a>
+
+    <div class="cards">
+
+        {% for item in items %}
+
+        <div class="card">
+
+            <span class="{{ item['status']|lower }}">
+                {{ item['status'] }}
+            </span>
+
+            <h3>{{ item['name'] }}</h3>
+
+            <p><b>ID:</b> {{ item['id'] }}</p>
+            <p><b>Category:</b> {{ item['category'] }}</p>
+            <p><b>Description:</b> {{ item['description'] }}</p>
+            <p><b>Location:</b> {{ item['location'] }}</p>
+            <p><b>Date:</b> {{ item['item_date'] }}</p>
+            <p><b>Contact:</b> {{ item['contact'] }}</p>
+
+            <form method="POST"
+                  action="/delete/{{ item['id'] }}"
+                  onsubmit="return confirm('Delete this record?')">
+
+                <button class="delete-btn" type="submit">
+                    Delete Item
+                </button>
+
+            </form>
+
+        </div>
+
+        {% else %}
+
+        <p>No items have been reported yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
